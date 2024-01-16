@@ -1,23 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Joke from "./Joke";
+import Stories from "./Stories";
+import Task from "./Task";
+import Gallery from "./Gallery"
+import Matrix from "./Matrix";
 
-function App() {
+
+const App = () => {
+  const [userQuery, setUserQuery] = useState('');
+  const [showGallery, setShowGallery] = useState(true);
+
+  const updateUserQuery = (event) => {
+    console.log('userQuery', userQuery);
+
+    setUserQuery(event.target.value);
+  }
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      searchQuery();
+    }
+  }
+
+  const searchQuery = () => {
+    window.open(`https://google.com/search?q=${userQuery}`, '_blank');
+  }
+
+  const toggleShowGallery = () => {
+    setShowGallery(!showGallery);
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello KEPELI</h1>
+      <div className="form">
+        <input value={userQuery} onChange={updateUserQuery} onKeyDown={handleKeyPress} />
+        <button onClick={searchQuery}>Search</button>
+      </div>
+      <hr />
+      <Joke />
+      <hr />
+      <Task />
+      <hr />
+      <div>
+        {
+          showGallery? <Gallery /> : null
+        }
+        <button onClick={toggleShowGallery}>
+          {showGallery ? 'Hide Gallery' : 'Show Gallery'}
+        </button>
+      </div>
+      <hr />
+      <Stories />
+      <hr />
+      <Matrix />
     </div>
   );
 }
